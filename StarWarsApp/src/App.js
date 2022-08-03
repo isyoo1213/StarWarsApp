@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
@@ -8,7 +8,10 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchMoviesHandler = async () => {
+
+
+  
+  const fetchMoviesHandler = useCallback( async () => {
     setIsLoading(true);
     setError(null);
     {/* 새로운 요청을 보낼 때 이전에 설정된 error에 대한 초기화처리에 필요 
@@ -37,7 +40,14 @@ function App() {
       setError(error.message);
     }
     setIsLoading(false);
-  };
+  }, []);
+  {/* state의 set함수는 리액트 자체적으로 변하지 않는 함수로 인식하므로 의존성에 추가할 필요 없음
+      + 외부에서 사용하는 변수가 없으므로 의존성 추가할 필요 없음 */}
+
+  useEffect(()=> {
+    fetchMoviesHandler();
+  }, [fetchMoviesHandler])
+  {/* effect를 핸들러보다 먼저 호출할 시 hoisting 문제?로 핸들러가 데이터를 파싱하기 전에 핸들러 함수를 호출하므로 오류발생 */}
 
   let content = <p>Found no movies</p>
 
