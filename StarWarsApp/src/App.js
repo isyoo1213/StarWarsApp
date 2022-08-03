@@ -16,7 +16,7 @@ function App() {
         async - try catch/ promise - cache*/}
 
     try{
-      const response = await fetch("https://swapi.dev/api/films/");
+      const response = await fetch("https://starwarsmovieapp-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json");
 
       if(!response.ok){
         throw new Error('An Error accured!')
