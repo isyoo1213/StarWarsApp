@@ -2,14 +2,12 @@ import React, { useState, useEffect, useCallback } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
+import AddMovie from "./components/AddMovie";
 
 function App() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
-
-
   
   const fetchMoviesHandler = useCallback( async () => {
     setIsLoading(true);
@@ -49,6 +47,10 @@ function App() {
   }, [fetchMoviesHandler])
   {/* effect를 핸들러보다 먼저 호출할 시 hoisting 문제?로 핸들러가 데이터를 파싱하기 전에 핸들러 함수를 호출하므로 오류발생 */}
 
+  const addMovieHandler = (movie) => {
+    console.log(movie);
+  }
+
   let content = <p>Found no movies</p>
 
   if(isLoading){
@@ -63,6 +65,9 @@ function App() {
 
   return (
     <React.Fragment>
+      <section>
+        <AddMovie onAddMovie={addMovieHandler}/>
+      </section>
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
